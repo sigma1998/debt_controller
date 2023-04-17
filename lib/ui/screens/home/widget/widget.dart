@@ -1,36 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Television extends StatelessWidget {
-  const Television({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-
-    );
-  }
-}
-
-
-class Telephone extends StatelessWidget {
-  const Telephone({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
-class HouseholdAppliances extends StatelessWidget {
-  const HouseholdAppliances({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
 class Product extends StatelessWidget {
   String productName="";
 
