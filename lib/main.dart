@@ -1,3 +1,4 @@
+import 'package:debt_controller/ui/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      home: const HomeScreen(),
     );
   }
 }
