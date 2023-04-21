@@ -10,5 +10,9 @@ class DebtModel {
   ItemData? itemData;
   Date? startingDate;
   Date? finishingDate;
+  Date? lastPayment;
+  int? givenMoney;
+  int? totalMoney;
   List<MonthlyPayment>? monthlyPayment;
+  bool isActive = true;
 }

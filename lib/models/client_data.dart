@@ -1,6 +1,8 @@
 class ClientData {
+  int? id;
   String? fullName;
   String? address;
   String? phoneNumber;
-  List<String>? images;
+  String? description;
+  String? images;
 }
