@@ -1,3 +1,4 @@
+import 'package:debt_controller/ui/screens/widget/monthly_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,6 +15,7 @@ class MonthlyScreen extends StatelessWidget {
       body: Column(
         children:  const [
           DoneMonthlyPayment(),
+          MonthlyPayment()
         ],
       ),
     );

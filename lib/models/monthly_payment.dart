@@ -7,25 +7,26 @@ class MonthlyPayment {
   Date? doneDate; ///date that client payed on
   List<String>? images;
 
-  MonthlyPayment.fromJson(Map<String, dynamic> json) {
-    isActive = json['isActive'];
-    description = json['description'];
-    neededDate = Date.fromJson(json['neededDate']);
-    doneDate = Date.fromJson(json['doneDate']);
-    if (json['images'] != null) {
-      images = <String>[];
-      json['images'].forEach((v) {
-        images!.add(v.toString());
-      });
-    }
+  MonthlyPayment.fromEntity(String element) {
+    var list = element.split('*');
+    isActive = list[0] == 'true' ? true : false;
+    description = list[1];
+    neededDate = Date.fromEntity(list[2]);
+    doneDate = Date.fromEntity(list[3]);
+    images = list[4].split('%');
   }
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['isActive'] = isActive;
-    data['description'] = description;
-    data['neededDate'] = neededDate;
-    data['doneDate'] = doneDate;
-    data['images'] = images;
-    return data;
+
+  String toEntity() {
+    StringBuffer model = StringBuffer();
+    model.write(isActive);
+    model.write('*$description');
+    model.write('*${neededDate?.toEntity()}');
+    model.write('*${doneDate?.toEntity()}');
+    StringBuffer str = StringBuffer();
+    images?.forEach((element) {
+      str.write(str.isEmpty ? element : '%$element');
+    });
+    model.write(str.isEmpty.toString());
+    return model.isEmpty ? 'null' : model.toString();
   }
 }

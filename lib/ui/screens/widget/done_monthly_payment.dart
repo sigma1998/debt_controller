@@ -13,6 +13,7 @@ class DoneMonthlyPayment extends StatelessWidget {
         left: 16,
       ),
       child: Material(
+        elevation: 3,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         child: Container(
           decoration: const BoxDecoration(

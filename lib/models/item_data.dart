@@ -4,23 +4,15 @@ class ItemData {
   String? description;
   List<String>? images;
 
-  ItemData.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    color = json['color'];
-    description = json['description'];
-    if (json['images'] != null) {
-      images = <String>[];
-      json['images'].forEach((v) {
-        images!.add(v.toString());
-      });
-    }
+  static List<String>? toList(String? itemImages) {
+    return itemImages?.split('#');
   }
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['color'] = color;
-    data['description'] = description;
-    data['children'] = images;
-    return data;
+
+  static String? toEntity(List<String>? images) {
+    StringBuffer sb = StringBuffer();
+    images?.forEach((element) {
+      sb.write(sb.isEmpty ? element : '#$element');
+    });
+    return sb.toString();
   }
 }
