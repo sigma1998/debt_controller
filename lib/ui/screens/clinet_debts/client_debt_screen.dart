@@ -1,12 +1,11 @@
 import 'package:debt_controller/ui/screens/widget/debt_item.dart';
-import 'package:debt_controller/ui/screens/widget/user_debt_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../../../values/app_colors.dart';
 
 
 class ClientDebtScreen extends StatelessWidget {
+  static const route="client_debt_screen";
   const ClientDebtScreen({super.key});
 
   @override

@@ -9,4 +9,7 @@ class ClientData {
   String? phoneNumber;
   String? description;
   String? images;
+
+
+  ClientData({required this.fullName,required this.address,required this.phoneNumber,required this.description,this.images});
 }

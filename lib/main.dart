@@ -1,8 +1,15 @@
+
+import 'package:debt_controller/ui/screens/auth/pin_code_replase_screen.dart';
+import 'package:debt_controller/ui/screens/auth/pin_code_screen.dart';
+import 'package:debt_controller/ui/screens/clinet_debts/client_debt_screen.dart';
 import 'package:debt_controller/ui/screens/home/home_screen.dart';
 import 'package:debt_controller/utils/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'db/pref/shared_pref.dart';
+import 'di/di.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +26,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    PreferenceHelper preferenceHelper=PreferenceHelper(di.get());
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: Colors.transparent,
@@ -28,6 +36,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+
       home: const HomeScreen(),
     );
   }

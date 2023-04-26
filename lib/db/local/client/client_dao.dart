@@ -4,7 +4,13 @@ import 'package:floor/floor.dart';
 @dao
 abstract class ClientDao {
   @Query('select * from client')
-  Future<List<ClientData>> getAll();
+  Stream<List<ClientData>> getAll();
+
+  @Insert(onConflict: OnConflictStrategy.replace)
+  Future<void> insert(ClientData data);
+
+  // @Insert()
+  // insert(ClientData data);
 }
 //
 // @Insert()

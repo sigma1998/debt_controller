@@ -2,40 +2,57 @@ import 'package:debt_controller/values/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class UserDebtItem extends StatelessWidget {
-  const UserDebtItem({super.key});
+  String fullName = "";
+  String address = "";
+  String phoneNumber = "";
+  Function() clickItem;
+
+  UserDebtItem(
+      {super.key,
+      required this.fullName,
+      required this.address,
+      required this.phoneNumber,
+      required this.clickItem});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 16.0,
-        right: 16,
-        left: 16,
-      ),
-      child: Material(
-        elevation: 3,
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
-        child: Container(
-          height: 150,
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              color: AppColors.white),
-          child: Row(
-            children: [
-              getImage(),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    getText("Saydaliev Akhror vdshvhbdhs djcndsjccdnscnjdsc ds c"),
-                    getText("Andijon vil, Baliqchi tumani, 110 - uy jsdnncns cdscdsjnc djcdsk"),
-                    getText("+998 90 524 0993"),
-                  ],
+    return InkWell(
+      onTap: () {
+        clickItem.call();
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 16.0,
+          right: 16,
+          left: 16,
+        ),
+        child: Material(
+          elevation: 3,
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          child: Container(
+            height: 150,
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                color: AppColors.white),
+            child: Row(
+              children: [
+                getImage(),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      getText(fullName),
+                      getText(address),
+                      getText(phoneNumber),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8,)
-            ],
+                const SizedBox(
+                  width: 8,
+                )
+              ],
+            ),
           ),
         ),
       ),
