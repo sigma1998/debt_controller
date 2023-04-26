@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../../../values/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const route="home_screen";
   const HomeScreen({super.key});
 
   @override
@@ -28,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ? AddUserScreen()
           : botNavIndex == 1
               ? const NotificationScreen()
-              : const ListScreen(),
+              :  ListScreen(),
       bottomNavigationBar: getBottomNavigation(),
     );
   }

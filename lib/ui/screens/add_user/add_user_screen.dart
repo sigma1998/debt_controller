@@ -1,13 +1,21 @@
+import 'package:debt_controller/db/local/client/client_entity.dart';
+import 'package:debt_controller/models/client_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/user/user_screen_controller.dart';
 import '../../../values/app_colors.dart';
 
 class AddUserScreen extends StatelessWidget {
   AddUserScreen({super.key});
 
-  TextEditingController controller = TextEditingController();
+  TextEditingController controllerFullName = TextEditingController();
+  TextEditingController controllerAddress = TextEditingController();
+  TextEditingController controllerPhoneNumber = TextEditingController();
+  TextEditingController controllerDescription = TextEditingController();
+  UserScreenController userScreenController =
+      Get.put(UserScreenController(Get.find()));
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +25,20 @@ class AddUserScreen extends StatelessWidget {
         child: Column(
           children: [
             getPicture(),
-            getTextFields(controller, 'ism va familiya'),
-            getTextFields(controller, 'address'),
-            getTextFields(controller, 'telefon raqami'),
+            getTextFields(controllerFullName, 'ism va familiya'),
+            getTextFields(controllerAddress, 'address'),
+            getTextFields(controllerPhoneNumber, 'telefon raqami'),
             getDescription(),
-            getSaveBtn()
+            InkWell(
+              onTap: () {
+                userScreenController.addUser(ClientModel.fromEntity(ClientData(
+                    fullName: controllerFullName.text,
+                    address: controllerAddress.text,
+                    phoneNumber: controllerPhoneNumber.text,
+                    description: controllerDescription.text)));
+              },
+              child: getSaveBtn(),
+            )
           ],
         ),
       ),
@@ -96,7 +113,7 @@ class AddUserScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: TextField(
-            controller: controller,
+            controller: controllerDescription,
             decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintStyle: TextStyle(
@@ -112,26 +129,28 @@ class AddUserScreen extends StatelessWidget {
   }
 
   getSaveBtn() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Container(
-        alignment: Alignment.center,
-        width: double.infinity,
-        height: 60,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          color: AppColors.blue,
+    return Builder(builder: (context) {
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 60,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: AppColors.blue,
+          ),
+          child: const Text(
+            'Saqlash',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                color: AppColors.white),
+          ),
         ),
-        child: const Text(
-          'Saqlash',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 16,
-              color: AppColors.white),
-        ),
-      ),
-    );
+      );
+    });
   }
 
   getPicture() {

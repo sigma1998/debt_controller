@@ -9,6 +9,7 @@ class ClientModel {
   String? description;
   List<String>? images;
 
+
   ClientModel.fromEntity(ClientData data) {
     id = data.id;
     fullName = data.fullName;
@@ -19,7 +20,7 @@ class ClientModel {
   }
 
   ClientData toEntity() {
-    ClientData data = ClientData();
+    ClientData data = ClientData(fullName: fullName, address: address, phoneNumber: phoneNumber, description: description);
     data.id = id;
     data.fullName = fullName;
     data.address = address;

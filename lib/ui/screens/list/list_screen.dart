@@ -1,22 +1,56 @@
-import 'package:debt_controller/ui/screens/widget/debt_item.dart';
-import 'package:debt_controller/ui/screens/widget/user_debt_item.dart';
+import 'package:debt_controller/db/local/client/client_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/list/list_screen_controller.dart';
 import '../../../values/app_colors.dart';
+import '../clinet_debts/client_debt_screen.dart';
+import '../widget/user_debt_item.dart';
 
-class ListScreen extends StatelessWidget {
+class ListScreen extends StatefulWidget {
   const ListScreen({super.key});
+
+  @override
+  State<ListScreen> createState() => _ListScreenState();
+}
+
+class _ListScreenState extends State<ListScreen> {
+  List<ClientData> users = [];
+  final ListScreenController listScreenController =
+      Get.put(ListScreenController(Get.find()));
+
+  @override
+  void initState() {
+    users = listScreenController.users;
+    print("initState");
+    super.initState();
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightOrange,
-      appBar: getAppBar(context),
-      body: Column(
-        children: const [UserDebtItem()],
-      ),
-    );
+        backgroundColor: AppColors.lightOrange,
+        appBar: getAppBar(context),
+        body: Obx(
+          () => ListView.builder(
+              itemCount: listScreenController.users.length,
+              itemBuilder: (BuildContext context, int index) {
+                return UserDebtItem(
+                  fullName:
+                      listScreenController.users[index].fullName.toString(),
+                  address: listScreenController.users[index].address.toString(),
+                  phoneNumber:
+                      listScreenController.users[index].phoneNumber.toString(),
+                  clickItem: () {
+                    Navigator.pushNamed(context, ClientDebtScreen.route);
+                  },
+                );
+              }),
+        ));
   }
 
   getAppBar(BuildContext context) {
@@ -26,9 +60,9 @@ class ListScreen extends StatelessWidget {
       leadingWidth: 55,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(15),
-            bottomRight: Radius.circular(15),
-          )),
+        bottomLeft: Radius.circular(15),
+        bottomRight: Radius.circular(15),
+      )),
       systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarIconBrightness: Brightness.dark,
           statusBarColor: AppColors.white),

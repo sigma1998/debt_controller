@@ -1,11 +1,19 @@
+import 'package:debt_controller/ui/screens/auth/pin_code_replase_screen.dart';
+import 'package:debt_controller/ui/screens/auth/pin_code_screen.dart';
 import 'package:debt_controller/ui/screens/clinet_debts/client_debt_screen.dart';
 import 'package:debt_controller/ui/screens/home/home_screen.dart';
-import 'package:debt_controller/ui/screens/monthly_screen/monthly_screen.dart';
+import 'package:debt_controller/utils/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-void main() {
+import 'db/pref/shared_pref.dart';
+import 'di/di.dart';
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await init();
+  await setUp();
   runApp(const MyApp());
 }
 
@@ -15,6 +23,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    PreferenceHelper preferenceHelper=PreferenceHelper(di.get());
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: Colors.transparent,
@@ -24,7 +33,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.blue,
       ),
-      home: const ClientDebtScreen(),
+      home: preferenceHelper.getLastScreen() ?const PinCodeReplace():const PinCodeScreen(),
+      routes: {
+        PinCodeScreen.route:(context)=>const PinCodeScreen(),
+        PinCodeReplace.route:(context)=>const PinCodeReplace(),
+        HomeScreen.route:(context)=>const HomeScreen(),
+        ClientDebtScreen.route:(context)=>const ClientDebtScreen(),
+      },
     );
   }
 }
