@@ -1,3 +1,4 @@
+
 import 'package:debt_controller/ui/screens/auth/pin_code_replase_screen.dart';
 import 'package:debt_controller/ui/screens/auth/pin_code_screen.dart';
 import 'package:debt_controller/ui/screens/clinet_debts/client_debt_screen.dart';
@@ -6,15 +7,17 @@ import 'package:debt_controller/utils/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
 import 'db/pref/shared_pref.dart';
 import 'di/di.dart';
 
-void main() async{
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
-  await setUp();
-  runApp(const MyApp());
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+  ]).then((value) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -31,15 +34,10 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Debt Controller',
       theme: ThemeData(
-          primarySwatch: Colors.blue,
+        primarySwatch: Colors.blue,
       ),
-      home: preferenceHelper.getLastScreen() ?const PinCodeReplace():const PinCodeScreen(),
-      routes: {
-        PinCodeScreen.route:(context)=>const PinCodeScreen(),
-        PinCodeReplace.route:(context)=>const PinCodeReplace(),
-        HomeScreen.route:(context)=>const HomeScreen(),
-        ClientDebtScreen.route:(context)=>const ClientDebtScreen(),
-      },
+
+      home: const HomeScreen(),
     );
   }
 }
