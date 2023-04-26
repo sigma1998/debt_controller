@@ -1,13 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+
+import '../../../controllers/add_user/add_user_controller.dart';
+import '../../../service/image_picker.dart';
+import '../../../service/show_dialog.dart';
 import '../../../values/app_colors.dart';
 
 class AddUserScreen extends StatelessWidget {
   AddUserScreen({super.key});
 
-  TextEditingController controller = TextEditingController();
+  final controller = Get.find<AddUserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +22,41 @@ class AddUserScreen extends StatelessWidget {
         child: Column(
           children: [
             getPicture(),
-            getTextFields(controller, 'ism va familiya'),
-            getTextFields(controller, 'address'),
-            getTextFields(controller, 'telefon raqami'),
+            getStar(),
+            getTextFields(controller.nameController, 'ism va familiya'),
+            getStar(),
+            getTextFields(controller.addressController, 'address'),
+            getStar(),
+            getTextFields(controller.phoneController, 'telefon raqami'),
+            const SizedBox(
+              height: 10,
+            ),
+            getText(),
             getDescription(),
             getSaveBtn()
           ],
         ),
       ),
       appBar: getAppBar(context),
+    );
+  }
+
+  getStar() {
+    return const Padding(
+      padding: EdgeInsets.only(left:20.0),
+      child: SizedBox(
+        width: double.infinity,
+        height: 16,
+        child: Text(
+          '*',
+          textAlign: TextAlign.start,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: AppColors.red,
+          ),
+        ),
+      ),
     );
   }
 
@@ -61,7 +92,7 @@ class AddUserScreen extends StatelessWidget {
 
   getTextFields(TextEditingController controller, String hint) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0, top: 16, right: 16),
+      padding: const EdgeInsets.only(left: 16.0, right: 16),
       child: Container(
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -89,14 +120,14 @@ class AddUserScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, top: 16, right: 16),
       child: Container(
-        height: 200,
+        height: 170,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8)),
             color: AppColors.white),
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: TextField(
-            controller: controller,
+            controller: controller.descriptionController,
             decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintStyle: TextStyle(
@@ -114,40 +145,88 @@ class AddUserScreen extends StatelessWidget {
   getSaveBtn() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Container(
-        alignment: Alignment.center,
-        width: double.infinity,
-        height: 60,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          color: AppColors.blue,
-        ),
-        child: const Text(
-          'Saqlash',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 16,
-              color: AppColors.white),
+      child: GestureDetector(
+        onTap: () {
+          showProgressDialog();
+        },
+        child: Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 60,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: AppColors.blue,
+          ),
+          child: const Text(
+            'Saqlash',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                color: AppColors.white),
+          ),
         ),
       ),
     );
   }
 
   getPicture() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: Container(
-        height: 180,
-        width: 180,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          color: AppColors.white,
-        ),
-        child: const Icon(
-          Icons.person,
-          size: 80,
-          color: AppColors.grey,
+    return GetBuilder(
+        id: controller.imageId,
+        init: controller,
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: GestureDetector(
+              onTap: () async {
+                final path = await pickImage();
+                if (path != null) {
+                  controller.setImage(path);
+                }
+              },
+              child: controller.client.images != null
+                  ? Container(
+                      height: 180,
+                      width: 180,
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
+                          color: AppColors.white,
+                          image: DecorationImage(
+                              image:
+                                  FileImage(File(controller.client.images!)))),
+                    )
+                  : Container(
+                      height: 180,
+                      width: 180,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        color: AppColors.white,
+                      ),
+                      child: const Icon(
+                        Icons.person,
+                        size: 80,
+                        color: AppColors.grey,
+                      ),
+                    ),
+            ),
+          );
+        });
+  }
+
+  getText() {
+    return const Padding(
+      padding: EdgeInsets.only(left: 16.0),
+      child: SizedBox(
+        width: double.infinity,
+        child: Text(
+          '~, *, #, %  belgilaridan foydalanmang!',
+          textAlign: TextAlign.start,
+          style: TextStyle(
+            fontSize: 12,
+            color: AppColors.red,
+            fontWeight: FontWeight.w400,
+          ),
         ),
       ),
     );

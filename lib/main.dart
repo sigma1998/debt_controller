@@ -1,12 +1,16 @@
-import 'package:debt_controller/ui/screens/clinet_debts/client_debt_screen.dart';
 import 'package:debt_controller/ui/screens/home/home_screen.dart';
-import 'package:debt_controller/ui/screens/monthly_screen/monthly_screen.dart';
+import 'package:debt_controller/utils/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await init();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+  ]).then((value) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -22,9 +26,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Debt Controller',
       theme: ThemeData(
-          primarySwatch: Colors.blue,
+        primarySwatch: Colors.blue,
       ),
-      home: const ClientDebtScreen(),
+      home: const HomeScreen(),
     );
   }
 }

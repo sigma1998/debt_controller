@@ -1,0 +1,1 @@
+enum AppStates {initial, loading, loaded, empty, error, notFilled}
