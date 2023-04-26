@@ -56,11 +56,7 @@ class AddUserScreen extends StatelessWidget {
             getDescription(),
             InkWell(
               onTap: () {
-                userScreenController.addUser(ClientModel.fromEntity(ClientData(
-                    fullName: controllerFullName.text,
-                    address: controllerAddress.text,
-                    phoneNumber: controllerPhoneNumber.text,
-                    description: controllerDescription.text)));
+
               },
               child: getSaveBtn(),
             )
@@ -158,13 +154,11 @@ class AddUserScreen extends StatelessWidget {
   }
 
   getSaveBtn() {
-
-
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: GestureDetector(
         onTap: () {
-          showProgressDialog();
+
         },
 
         child: Container(
@@ -206,4 +200,10 @@ class AddUserScreen extends StatelessWidget {
       ),
     );
   }
+
+  getText() {
+
+  }
+
+  getStar() {}
 }
