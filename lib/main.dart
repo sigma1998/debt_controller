@@ -11,13 +11,20 @@ import 'db/pref/shared_pref.dart';
 import 'di/di.dart';
 
 
+
+import 'db/pref/shared_pref.dart';
+import 'di/di.dart';
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
+  await setUp();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp,
   ]).then((value) => runApp(const MyApp()));
+
 }
 
 class MyApp extends StatelessWidget {
@@ -34,10 +41,11 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Debt Controller',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+          primarySwatch: Colors.blue,
       ),
 
       home: const HomeScreen(),
+
     );
   }
 }
