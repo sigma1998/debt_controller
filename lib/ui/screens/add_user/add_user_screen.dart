@@ -1,3 +1,4 @@
+
 import 'package:debt_controller/db/local/client/client_entity.dart';
 import 'package:debt_controller/models/client_model.dart';
 import 'package:flutter/material.dart';
@@ -5,17 +6,32 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/user/user_screen_controller.dart';
+
+
+import 'package:debt_controller/db/local/client/client_entity.dart';
+import 'package:debt_controller/models/client_model.dart';
+
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+
+
+import '../../../controllers/user/user_screen_controller.dart';
+
+import '../../../controllers/add_user/add_user_controller.dart';
+import '../../../service/image_picker.dart';
+import '../../../service/show_dialog.dart';
+
+
 import '../../../values/app_colors.dart';
 
 class AddUserScreen extends StatelessWidget {
   AddUserScreen({super.key});
 
-  TextEditingController controllerFullName = TextEditingController();
-  TextEditingController controllerAddress = TextEditingController();
-  TextEditingController controllerPhoneNumber = TextEditingController();
-  TextEditingController controllerDescription = TextEditingController();
-  UserScreenController userScreenController =
-      Get.put(UserScreenController(Get.find()));
+  final controller = Get.find<AddUserController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +41,18 @@ class AddUserScreen extends StatelessWidget {
         child: Column(
           children: [
             getPicture(),
-            getTextFields(controllerFullName, 'ism va familiya'),
-            getTextFields(controllerAddress, 'address'),
-            getTextFields(controllerPhoneNumber, 'telefon raqami'),
+
+            getStar(),
+            getTextFields(controller.nameController, 'ism va familiya'),
+            getStar(),
+            getTextFields(controller.addressController, 'address'),
+            getStar(),
+            getTextFields(controller.phoneController, 'telefon raqami'),
+            const SizedBox(
+              height: 10,
+            ),
+            getText(),
+
             getDescription(),
             InkWell(
               onTap: () {
@@ -113,7 +138,11 @@ class AddUserScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: TextField(
-            controller: controllerDescription,
+
+
+            controller: controller.descriptionController,
+
+
             decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintStyle: TextStyle(
@@ -129,9 +158,15 @@ class AddUserScreen extends StatelessWidget {
   }
 
   getSaveBtn() {
-    return Builder(builder: (context) {
-      return Padding(
-        padding: const EdgeInsets.all(16.0),
+
+
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: GestureDetector(
+        onTap: () {
+          showProgressDialog();
+        },
+
         child: Container(
           alignment: Alignment.center,
           width: double.infinity,
@@ -149,8 +184,8 @@ class AddUserScreen extends StatelessWidget {
                 color: AppColors.white),
           ),
         ),
-      );
-    });
+      )
+    );
   }
 
   getPicture() {
