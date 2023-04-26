@@ -3,12 +3,12 @@ import 'package:debt_controller/repo/user_screen/user_screen_repo.dart';
 import 'package:get/get.dart';
 
 
+import '../controllers/add_user/add_user.dart';
 import '../repo/list/list_screen_repo.dart';
 
 
 import '../repo/list/list_screen_repo.dart';
 
-import '../controllers/add_user/add_user_controller.dart';
 
 
 Future<void> init() async {

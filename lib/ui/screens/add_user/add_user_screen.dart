@@ -1,29 +1,8 @@
-
-import 'package:debt_controller/db/local/client/client_entity.dart';
-import 'package:debt_controller/models/client_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/user/user_screen_controller.dart';
-
-
-import 'package:debt_controller/db/local/client/client_entity.dart';
-import 'package:debt_controller/models/client_model.dart';
-
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-
-
-import '../../../controllers/user/user_screen_controller.dart';
-
-import '../../../controllers/add_user/add_user_controller.dart';
-import '../../../service/image_picker.dart';
-import '../../../service/show_dialog.dart';
-
+import '../../../controllers/add_user/add_user.dart';
 
 import '../../../values/app_colors.dart';
 
@@ -31,7 +10,6 @@ class AddUserScreen extends StatelessWidget {
   AddUserScreen({super.key});
 
   final controller = Get.find<AddUserController>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +19,6 @@ class AddUserScreen extends StatelessWidget {
         child: Column(
           children: [
             getPicture(),
-
             getStar(),
             getTextFields(controller.nameController, 'ism va familiya'),
             getStar(),
@@ -52,12 +29,9 @@ class AddUserScreen extends StatelessWidget {
               height: 10,
             ),
             getText(),
-
             getDescription(),
             InkWell(
-              onTap: () {
-
-              },
+              onTap: () {},
               child: getSaveBtn(),
             )
           ],
@@ -134,11 +108,7 @@ class AddUserScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: TextField(
-
-
             controller: controller.descriptionController,
-
-
             decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintStyle: TextStyle(
@@ -155,31 +125,27 @@ class AddUserScreen extends StatelessWidget {
 
   getSaveBtn() {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: GestureDetector(
-        onTap: () {
-
-        },
-
-        child: Container(
-          alignment: Alignment.center,
-          width: double.infinity,
-          height: 60,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: AppColors.blue,
+        padding: const EdgeInsets.all(16.0),
+        child: GestureDetector(
+          onTap: () {},
+          child: Container(
+            alignment: Alignment.center,
+            width: double.infinity,
+            height: 60,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              color: AppColors.blue,
+            ),
+            child: const Text(
+              'Saqlash',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                  color: AppColors.white),
+            ),
           ),
-          child: const Text(
-            'Saqlash',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-                color: AppColors.white),
-          ),
-        ),
-      )
-    );
+        ));
   }
 
   getPicture() {
@@ -202,8 +168,13 @@ class AddUserScreen extends StatelessWidget {
   }
 
   getText() {
-
+    return const Text('~, *, #, % bu belgilardan fondling');
   }
 
-  getStar() {}
+  getStar() {
+    return const Text(
+      '*',
+      style: TextStyle(color: AppColors.red),
+    );
+  }
 }
