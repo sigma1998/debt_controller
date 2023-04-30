@@ -3,7 +3,17 @@ import 'package:flutter/material.dart';
 import '../../../values/app_colors.dart';
 
 class DebtItem extends StatelessWidget {
-  const DebtItem({super.key});
+  String mijoz="";
+  String telifonRaqami="";
+  String nomi="";
+  String rangi="";
+  String jamiSumma="";
+  String boshlangichSumma="";
+  String boshlangichSanasi="";
+  String tugashSanasi="";
+  String qushimchaMalumot="";
+
+  DebtItem({super.key,required this.mijoz,required this.telifonRaqami,required this.nomi,required this.rangi,required this.jamiSumma,required this.boshlangichSumma,required this.boshlangichSanasi,required this.tugashSanasi,required this.qushimchaMalumot});
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +40,16 @@ class DebtItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                getText("Mijoz", "Saydaliev Akhror"),
-                getText("Telefon raqami", "+998 90 524 0993"),
-                getText("Nomi", "IPhone X"),
-                getText("Rangi", "Qora"),
-                getText("Jami summa", "1000"),
-                getText("Boshlang'ich summa", "300"),
-                getText("Boshlanish sanasi", "10.01.2022"),
-                getText("Tugash sanasi", "10.01.2023"),
+                getText("Mijoz", mijoz),
+                getText("Telefon raqami", telifonRaqami),
+                getText("Nomi", nomi),
+                getText("Rangi", rangi),
+                getText("Jami summa", jamiSumma),
+                getText("Boshlang'ich summa", boshlangichSumma),
+                getText("Boshlanish sanasi", boshlangichSanasi),
+                getText("Tugash sanasi", tugashSanasi),
                 getText("Qo'shimcha malumot",
-                    "cjdscnjdnscjdncncdnckd jdcdkmckmdksmckdsmckmc dkcmdskcmmdscmdsmckc dskckdsmcmdsc d skcs"),
+                    qushimchaMalumot),
                 getPicture()
               ],
             ),

@@ -3,11 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/add_user/add_user.dart';
-
 import '../../../values/app_colors.dart';
 
 class AddUserScreen extends StatelessWidget {
   AddUserScreen({super.key});
+
+  String phoneErrorMessage = "";
+  String nameErrorMessage = "";
+  String addressErrorMessage = "";
 
   final controller = Get.find<AddUserController>();
 
@@ -20,20 +23,20 @@ class AddUserScreen extends StatelessWidget {
           children: [
             getPicture(),
             getStar(),
-            getTextFields(controller.nameController, 'ism va familiya'),
+            Obx(() => getTextFields(controller.nameController,
+                'ism va familiya', TextInputType.text)),
             getStar(),
-            getTextFields(controller.addressController, 'address'),
+            Obx(() => getTextFields(
+                controller.addressController, 'address', TextInputType.text)),
             getStar(),
-            getTextFields(controller.phoneController, 'telefon raqami'),
+            Obx(() => getTextFields(controller.phoneController,
+                'telefon raqami', TextInputType.phone)),
             const SizedBox(
               height: 10,
             ),
             getText(),
             getDescription(),
-            InkWell(
-              onTap: () {},
-              child: getSaveBtn(),
-            )
+            getSaveBtn(context),
           ],
         ),
       ),
@@ -71,7 +74,8 @@ class AddUserScreen extends StatelessWidget {
     );
   }
 
-  getTextFields(TextEditingController controller, String hint) {
+  getTextFields(TextEditingController controller, String hint,
+      TextInputType textInputType) {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, top: 16, right: 16),
       child: Container(
@@ -81,6 +85,7 @@ class AddUserScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: TextField(
+            keyboardType: textInputType,
             controller: controller,
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -123,29 +128,34 @@ class AddUserScreen extends StatelessWidget {
     );
   }
 
-  getSaveBtn() {
+  getSaveBtn(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: GestureDetector(
-          onTap: () {},
-          child: Container(
-            alignment: Alignment.center,
-            width: double.infinity,
-            height: 60,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              color: AppColors.blue,
-            ),
-            child: const Text(
-              'Saqlash',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                  color: AppColors.white),
-            ),
+      padding: const EdgeInsets.all(16.0),
+      child: GestureDetector(
+        onTap: () {
+          if (controller.isFull()) {
+            controller.addUser();
+          }
+        },
+        child: Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 60,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: AppColors.blue,
           ),
-        ));
+          child: const Text(
+            'Saqlash',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                color: AppColors.white),
+          ),
+        ),
+      ),
+    );
   }
 
   getPicture() {
@@ -168,13 +178,21 @@ class AddUserScreen extends StatelessWidget {
   }
 
   getText() {
-    return const Text('~, *, #, % bu belgilardan fondling');
+    return Obx(() => Text(controller.phoneErrorMessage.value,
+      style: const TextStyle(color: AppColors.red),));
   }
 
   getStar() {
-    return const Text(
-      '*',
-      style: TextStyle(color: AppColors.red),
-    );
+    return Obx(() => Text(
+          controller.nameErrorMessage.value,
+          style: const TextStyle(color: AppColors.red),
+        ));
+  }
+
+  getAddress() {
+    return Obx(() => Text(
+          controller.addressErrorMessage.value,
+          style: const TextStyle(color: AppColors.red),
+        ));
   }
 }

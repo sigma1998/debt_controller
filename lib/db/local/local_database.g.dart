@@ -138,6 +138,7 @@ class _$ClientDao extends ClientDao {
   Stream<List<ClientData>> getAll() {
     return _queryAdapter.queryListStream('select * from client',
         mapper: (Map<String, Object?> row) => ClientData(
+            id: row['id'] as int?,
             fullName: row['fullName'] as String?,
             address: row['address'] as String?,
             phoneNumber: row['phoneNumber'] as String?,
@@ -157,7 +158,56 @@ class _$DebtDao extends DebtDao {
   _$DebtDao(
     this.database,
     this.changeListener,
-  ) : _queryAdapter = QueryAdapter(database);
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _debtModelInsertionAdapter = InsertionAdapter(
+            database,
+            'debt',
+            (DebtModel item) => <String, Object?>{
+                  'id': item.id,
+                  'clientId': item.clientId,
+                  'itemName': item.itemName,
+                  'itemColor': item.itemColor,
+                  'description': item.description,
+                  'itemImages': item.itemImages,
+                  'startingDay': item.startingDay,
+                  'startingMonth': item.startingMonth,
+                  'startingYear': item.startingYear,
+                  'startingWhole': item.startingWhole,
+                  'endingDay': item.endingDay,
+                  'endingMonth': item.endingMonth,
+                  'endingYear': item.endingYear,
+                  'endingWhole': item.endingWhole,
+                  'givenMoney': item.givenMoney,
+                  'totalMoney': item.totalMoney,
+                  'isActive': item.isActive ? 1 : 0,
+                  'monthlyPayment': item.monthlyPayment
+                },
+            changeListener),
+        _debtModelUpdateAdapter = UpdateAdapter(
+            database,
+            'debt',
+            ['id'],
+            (DebtModel item) => <String, Object?>{
+                  'id': item.id,
+                  'clientId': item.clientId,
+                  'itemName': item.itemName,
+                  'itemColor': item.itemColor,
+                  'description': item.description,
+                  'itemImages': item.itemImages,
+                  'startingDay': item.startingDay,
+                  'startingMonth': item.startingMonth,
+                  'startingYear': item.startingYear,
+                  'startingWhole': item.startingWhole,
+                  'endingDay': item.endingDay,
+                  'endingMonth': item.endingMonth,
+                  'endingYear': item.endingYear,
+                  'endingWhole': item.endingWhole,
+                  'givenMoney': item.givenMoney,
+                  'totalMoney': item.totalMoney,
+                  'isActive': item.isActive ? 1 : 0,
+                  'monthlyPayment': item.monthlyPayment
+                },
+            changeListener);
 
   final sqflite.DatabaseExecutor database;
 
@@ -165,9 +215,41 @@ class _$DebtDao extends DebtDao {
 
   final QueryAdapter _queryAdapter;
 
+  final InsertionAdapter<DebtModel> _debtModelInsertionAdapter;
+
+  final UpdateAdapter<DebtModel> _debtModelUpdateAdapter;
+
   @override
-  Future<List<DebtModel>> getAll(int id) async {
-    return _queryAdapter.queryList('select * from debt where clientId =?1',
-        mapper: (Map<String, Object?> row) => DebtModel(), arguments: [id]);
+  Stream<List<DebtModel>> getAll(int id) {
+    return _queryAdapter.queryListStream(
+        'select * from debt where clientId =?1',
+        mapper: (Map<String, Object?> row) => DebtModel(
+            clientId: row['clientId'] as int?,
+            itemName: row['itemName'] as String?,
+            itemColor: row['itemColor'] as String?,
+            description: row['description'] as String?,
+            startingWhole: row['startingWhole'] as String?,
+            endingWhole: row['endingWhole'] as String?,
+            givenMoney: row['givenMoney'] as int?,
+            totalMoney: row['totalMoney'] as int?),
+        arguments: [id],
+        queryableName: 'debt',
+        isView: false);
+  }
+
+  @override
+  Future<void> deleteDebit(int id) async {
+    await _queryAdapter
+        .queryNoReturn('delete * from debt where id =?1', arguments: [id]);
+  }
+
+  @override
+  Future<void> insertDebit(DebtModel model) async {
+    await _debtModelInsertionAdapter.insert(model, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateDebit(DebtModel model) async {
+    await _debtModelUpdateAdapter.update(model, OnConflictStrategy.abort);
   }
 }

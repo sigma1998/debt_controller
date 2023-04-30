@@ -1,25 +1,65 @@
 import 'package:debt_controller/ui/screens/widget/debt_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../values/app_colors.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/client_debit/client_debit_controller.dart';
+import '../../../db/local/debt/debt_entity.dart';
+import '../../../values/app_colors.dart';
+import '../add_client_debit/add_client_debit_screen.dart';
 
 class ClientDebtScreen extends StatelessWidget {
-  static const route="client_debt_screen";
-  const ClientDebtScreen({super.key});
+  static const route = "client_debt_screen";
+
+  ClientDebtScreen({super.key});
+
+
+  final controller = Get.find<ClientDebitController>();
+
+  List<DebtModel> debitModel=[];
 
   @override
   Widget build(BuildContext context) {
+
+    final args=ModalRoute.of(context)!.settings.arguments as Map<String,dynamic>;
+
+    int?  id=args["id"];
+    String? name=args["name"];
+    String phone=args["phone"];
+
     return Scaffold(
-      backgroundColor: AppColors.lightOrange,
-      appBar: getAppBar(context),
-      body: Column(
-        children: const [DebtItem()],
-      ),
-    );
+        backgroundColor: AppColors.lightOrange,
+        appBar: getAppBar(context,id!),
+        body: StreamBuilder<List<DebtModel>>(
+          stream: controller.getAllDbts(id),
+          builder: (context, snapshot){
+            final List<DebtModel> debts = snapshot.data??[];
+            return ListView.builder(
+                itemCount: debts.length,
+                itemBuilder: (BuildContext context, int index) {
+                  print("ID======================================================$id");
+                  print("BMW =============== ====== ====== ${debts[index].itemName.toString()}");
+                  return DebtItem(
+                    mijoz: name!,
+                    telifonRaqami: phone,
+                    nomi: debts[index].itemName.toString(),
+                    rangi: debts[index].itemColor.toString(),
+                    jamiSumma: debts[index].givenMoney.toString(),
+                    boshlangichSumma: debts[index].totalMoney.toString(),
+                    boshlangichSanasi: debts[index].startingWhole.toString(),
+                    tugashSanasi: debts[index].endingWhole.toString(),
+                    qushimchaMalumot: debts[index].description.toString(),
+                  );
+                });
+          },
+
+        ),
+        );
   }
 
-  getAppBar(BuildContext context) {
+
+
+  getAppBar(BuildContext context,int id) {
     return AppBar(
       elevation: 1,
       backgroundColor: AppColors.white,
@@ -62,7 +102,15 @@ class ClientDebtScreen extends StatelessWidget {
         getHorSizedBox(16),
         GestureDetector(
           onTap: () {
-            // controller.onSearchPressed();
+            // Navigator.pushNamed(context, AddClientDebitScreen.route,arguments: {
+            //   "clientId":id
+            // });
+
+            Navigator.pushNamedAndRemoveUntil(context, AddClientDebitScreen.route,(Route<dynamic> route) => true,arguments: {
+              "clientId":id
+            });
+
+            //controller.openAddClintDebitScreen(context);
           },
           child: const SizedBox(
             width: 24,

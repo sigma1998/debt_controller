@@ -1,5 +1,3 @@
-import 'package:debt_controller/ui/screens/widget/debt_item.dart';
-import 'package:debt_controller/ui/screens/widget/monthly_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,7 +11,7 @@ class NotificationScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.lightOrange,
       appBar: getAppBar(context),
-      body: Column(children: const [DebtItem()],),
+      body: Column(children: const [],),
     );
   }
 
