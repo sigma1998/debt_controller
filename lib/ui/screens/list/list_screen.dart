@@ -9,6 +9,7 @@ import '../clinet_debts/client_debt_screen.dart';
 import '../widget/user_debt_item.dart';
 
 class ListScreen extends StatefulWidget {
+  static const route="list_screen";
   const ListScreen({super.key});
 
   @override
@@ -28,8 +29,6 @@ class _ListScreenState extends State<ListScreen> {
   }
 
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +38,7 @@ class _ListScreenState extends State<ListScreen> {
           () => ListView.builder(
               itemCount: listScreenController.users.length,
               itemBuilder: (BuildContext context, int index) {
+                print("List$index=============${listScreenController.users[index].id}");
                 return UserDebtItem(
                   fullName:
                       listScreenController.users[index].fullName.toString(),
@@ -46,7 +46,12 @@ class _ListScreenState extends State<ListScreen> {
                   phoneNumber:
                       listScreenController.users[index].phoneNumber.toString(),
                   clickItem: () {
-                    Navigator.pushNamed(context, ClientDebtScreen.route);
+                    Navigator.pushNamed(context, ClientDebtScreen.route,arguments: {
+                      "id":listScreenController.users[index].id,
+                      "name":listScreenController.users[index].fullName,
+                      "phone":listScreenController.users[index].phoneNumber
+                    });
+                    //listScreenController.openClintDebitScreen(context, listScreenController.users[index].id);
                   },
                 );
               }),

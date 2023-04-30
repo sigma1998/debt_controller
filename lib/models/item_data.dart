@@ -1,5 +1,5 @@
 class ItemData {
-  String? name;
+  String? itemName;
   String? color;
   String? description;
   List<String>? images;

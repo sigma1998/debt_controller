@@ -1,4 +1,4 @@
-
+import 'package:debt_controller/ui/screens/add_client_debit/add_client_debit_screen.dart';
 import 'package:debt_controller/ui/screens/auth/pin_code_replase_screen.dart';
 import 'package:debt_controller/ui/screens/auth/pin_code_screen.dart';
 import 'package:debt_controller/ui/screens/clinet_debts/client_debt_screen.dart';
@@ -7,12 +7,6 @@ import 'package:debt_controller/utils/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'db/pref/shared_pref.dart';
-import 'di/di.dart';
-
-
-
-import 'db/pref/shared_pref.dart';
 import 'di/di.dart';
 
 
@@ -33,7 +27,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    PreferenceHelper preferenceHelper=PreferenceHelper(di.get());
+   // PreferenceHelper preferenceHelper=PreferenceHelper(di.get());
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: Colors.transparent,
@@ -46,6 +40,13 @@ class MyApp extends StatelessWidget {
 
       home: const HomeScreen(),
 
+      routes: {
+        PinCodeScreen.route:(context)=> const PinCodeScreen(),
+        PinCodeReplace.route:(context)=> const PinCodeReplace(),
+        HomeScreen.route:(context)=> const HomeScreen(),
+        AddClientDebitScreen.route:(context)=> AddClientDebitScreen(),
+        ClientDebtScreen.route:(context)=> ClientDebtScreen(),
+      },
     );
   }
 }

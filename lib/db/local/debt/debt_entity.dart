@@ -1,8 +1,4 @@
-import 'package:debt_controller/models/item_data.dart';
 import 'package:floor/floor.dart';
-import '../client/client_entity.dart';
-import '../../../models/date.dart';
-import '../../../models/monthly_payment.dart';
 
 @Entity(tableName: 'debt')
 class DebtModel {
@@ -25,4 +21,14 @@ class DebtModel {
   int? totalMoney;
   bool isActive = true;
   String? monthlyPayment;
+
+  DebtModel(
+      {required this.clientId,
+      required this.itemName,
+      required this.itemColor,
+      required this.description,
+      required this.startingWhole,
+      required this.endingWhole,
+      required this.givenMoney,
+      required this.totalMoney});
 }
